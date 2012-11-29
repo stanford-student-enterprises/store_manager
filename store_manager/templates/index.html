@@ -2,4 +2,11 @@
 
 {% block content %}
 <h1>Store Manager</h1>
+<p>Welcome to the student store inventory manager!</p>
+<h3>Instructions</h3>
+<p>Click on <a href="/inventory/compare/">Compare</a> to see the inventories for the common items between the two stores.</p>
+<p>Click on <a href="/inventory/store/">Store Inventory</a> to view the inventory of items listed in VendHQ.</p>
+<p>Click on <a href="/inventory/online/">Online Inventory</a> to view the inventory of items listed in BigCommerce.</p>
+<p>Click on the SKU of any item to view its global inventory.</p>
+<p>When on a page for a single item, click "Edit" to set the actual inventory count of that item. This will immediately reset the inventory in both stores, and use this value to track future inventory.</p>
 {% endblock %}

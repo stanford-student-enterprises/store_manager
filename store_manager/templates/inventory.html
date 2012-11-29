@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ type }}</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Product</th>
+            <th>Inventory</th>
+            <th>Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td><a href="/inventory/product/{{ product.sku }}/">{{ product.sku }}</a></td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.inventory_count|floatformat:"0" }}</td>
+            <td>{{ product.date_added }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

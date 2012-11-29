@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ type }}</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Product</th>
+            <th>Last Online Inventory</th>
+            <th>Last Retail Inventory</th>
+            <th>Last Known Good</ht>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sku, product_dict in common_products.items %}
+        <tr>
+            <td><a href="/inventory/product/{{ sku }}/">{{ sku }}</a></td>
+            <td>{% if product_dict.G.name %}{{ product_dict.G.name }}{% else %}{{ product_dict.O.name }}{% endif %}</td>
+            <td>{{ product_dict.O.inventory_count|floatformat:"0" }}</td>
+            <td>{{ product_dict.R.inventory_count|floatformat:"0" }}</td>
+            <td>{{ product_dict.G.inventory_count|floatformat:"0" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

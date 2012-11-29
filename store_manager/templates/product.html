@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head_js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#edit_inventory").click(function() {
+            $("#actual_inventory").hide();
+            $('#edit_inventory_form').show();
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block content %}
+<h1>{{ sku }} - {{ product_name }}</h1>
+<strong>Actual Inventory: <h2><span id="actual_inventory">{{ actual_inventory }}
+    &nbsp;<a href="#" id="edit_inventory" class="btn btn-mini">Edit</a></span>
+    <form id="edit_inventory_form" style="display:none;" method="post" action="">
+        {% csrf_token %}
+        <input type="text" name="inventory" width="4" />
+        <input type="submit" value="Submit" class="btn btn-small" />
+    </form>
+    </h2></strong>
+<h3>Last Known Good</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Inventory</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ global_snapshot.date_added }}</td>
+            <td>{{ global_snapshot.inventory_count|floatformat:"0" }}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Currently</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Store</th>
+            <th>Inventory</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ current_bc_product.get_store_display }}</td>
+            <td>{{ current_bc_product.inventory_count|floatformat:"0" }}</td>
+        </tr>
+        <tr>
+            <td>{{ current_vhq_product.get_store_display }}</td>
+            <td>{{ current_vhq_product.inventory_count|floatformat:"0" }}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Snapshots</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Store</th>
+            <th>Time</th>
+            <th>Inventory</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for snapshot in snapshots %}
+        <tr>
+            <td>{{ snapshot.get_store_display }}</td>
+            <td>{{ snapshot.date_added }}</td>
+            <td>{{ snapshot.inventory_count|floatformat:"0" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

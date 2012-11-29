@@ -3,7 +3,7 @@ import httplib2
 import json
 from urllib import urlencode
 
-from store_manager.inventory_sync.models import ProductInventorySnapshot
+from inventory_sync.models import ProductInventorySnapshot
                 
 class StoreAPIConnector(object):
     def __init__(self, username, api_token, base_api_url):

@@ -21,3 +21,5 @@ class InventorySnapshot(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     store = models.CharField(max_length=2, choices=STORE_CHOICES)
     
+    def __unicode__(self):
+        return "%s (%s)" % (self.date, self.get_store_display())

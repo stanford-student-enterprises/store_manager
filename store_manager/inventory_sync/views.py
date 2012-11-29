@@ -1,15 +1,17 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from store_manager.inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
-from store_manager.inventory_sync.sync import save_snapshots
+from inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
+from inventory_sync.sync import save_snapshots
 
-from store_manager.inventory_sync.models import ProductInventorySnapshot, InventorySnapshot
+from inventory_sync.models import ProductInventorySnapshot, InventorySnapshot
 
 @login_required
 def store_inventory(request):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403)
     snapshots = InventorySnapshot.objects.filter(store="R").order_by("-date")
     if not snapshots.count():
         save_snapshots()
@@ -23,6 +25,8 @@ def store_inventory(request):
 
 @login_required 
 def update_snapshots(request):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403)
     save_snapshots()
     
     if 'next' in request.GET.keys():
@@ -30,7 +34,9 @@ def update_snapshots(request):
     return HttpResponseRedirect("/")
 
 @login_required   
-def online_inventory(request):   
+def online_inventory(request):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403)   
     snapshots = InventorySnapshot.objects.filter(store="O").order_by("-date")
     
     snapshot = snapshots[0]
@@ -41,6 +47,8 @@ def online_inventory(request):
 
 @login_required  
 def compare(request):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403)
     latest_bc = InventorySnapshot.objects.filter(store="O").order_by("-date")
     latest_vhq = InventorySnapshot.objects.filter(store="R").order_by("-date")
     
@@ -70,6 +78,8 @@ def compare(request):
 
 @login_required
 def product(request, sku):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403)
     snapshots = ProductInventorySnapshot.objects.filter(sku=sku).order_by("-date_added")
     bc_snapshot = None
     vhq_snapshot = None

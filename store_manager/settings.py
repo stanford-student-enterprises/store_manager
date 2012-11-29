@@ -122,14 +122,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'store_manager.inventory_sync',
-    'store_manager.registration',
+    'inventory_sync',
+    'registration',
 )
 
 LOGIN_URL = '/accounts/login/'
+REGISTRATION_SUCCESS_URL = '/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

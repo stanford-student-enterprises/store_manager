@@ -1,6 +1,6 @@
-from store_manager.inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
+from inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
 
-from store_manager.inventory_sync.models import InventorySnapshot, ProductInventorySnapshot
+from inventory_sync.models import InventorySnapshot, ProductInventorySnapshot
 
 from django.core.exceptions import ObjectDoesNotExist
 

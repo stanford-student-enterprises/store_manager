@@ -4,7 +4,7 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
-from store_manager.inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
+from inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
 
 from django.utils import unittest
 from django.test import TestCase

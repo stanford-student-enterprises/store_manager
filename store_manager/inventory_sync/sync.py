@@ -71,4 +71,5 @@ def default_syncer():
     
     
 if __name__ == '__main__':
-    print InventorySyncer()
+    syncer = InventorySyncer()
+    syncer.sync_products()

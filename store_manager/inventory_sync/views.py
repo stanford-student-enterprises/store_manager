@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
 from inventory_sync.sync import save_snapshots
+import inventory_sync
 
 from inventory_sync.models import ProductInventorySnapshot, InventorySnapshot
 
@@ -33,6 +34,16 @@ def update_snapshots(request):
         return HttpResponseRedirect(request.GET['next'])
     return HttpResponseRedirect("/")
 
+@login_required
+def sync(request):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403)
+    inventory_sync.sync.sync()
+    
+    if 'next' in request.GET.keys():
+        return HttpResponseRedirect(request.GET['next'])
+    return HttpResponseRedirect("/")
+
 @login_required   
 def online_inventory(request):
     if not request.user.is_superuser:
@@ -49,11 +60,12 @@ def online_inventory(request):
 def compare(request):
     if not request.user.is_superuser:
         return HttpResponse(status=403)
-    latest_bc = InventorySnapshot.objects.filter(store="O").order_by("-date")
-    latest_vhq = InventorySnapshot.objects.filter(store="R").order_by("-date")
+    latest_bc = InventorySnapshot.objects.filter(store="O").order_by("-date")[0]
+    latest_vhq = InventorySnapshot.objects.filter(store="R").order_by("-date")[0]
     
     latest_bc_products = ProductInventorySnapshot.objects.filter(snapshot=latest_bc)
     latest_vhq_products = ProductInventorySnapshot.objects.filter(snapshot=latest_vhq)
+    print latest_vhq_products
     
     common_products = {}
     for product in latest_bc_products:
@@ -67,11 +79,13 @@ def compare(request):
     for sku in common_products.keys():
         try:
             global_product = ProductInventorySnapshot.objects.filter(store="G").filter(sku=sku).order_by("-date_added")[0]
+            print "Found %s" % sku
         except:
             global_product = None
             print "Couldn't find %s" % sku
         common_products[sku]["G"] = global_product
         if "R" not in common_products[sku].keys():
+            print "Uh oh"
             del common_products[sku]
     
     return render_to_response("compare.html", {"common_products":common_products}, context_instance=RequestContext(request))

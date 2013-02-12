@@ -9,6 +9,15 @@
 {% endblock %}
 
 {% block content %}
+<a class="btn" href="/inventory/update/">Refresh Inventories</a> (may take a while)
+<p>Refreshing the inventories fetches the latest inventory numbers reported individually by VendHQ and BigCommerce.
+This will update the "Last Online Inventory" and "Last Retail Inventory" columns. The <strong>actual inventory</strong>
+can be calculated as: (Last Online Inventory) + (Last Retail Inventory) - (Last Known Good)
+<br /><br />
+<a class="btn" href="/inventory/sync/">Trigger Inventory Sync</a> (may take a while)
+<p>Triggering the inventory sync will go through each item and calculate the <strong>actual inventory</strong> value,
+and then actually set the inventory value in the BigCommerce and VendHQ stores to this number. It will also update the "Last Known Good"
+to be this number.<p>
 <h1>{{ type }}</h1>
 <table class="table" id="sortTable">
     <thead>

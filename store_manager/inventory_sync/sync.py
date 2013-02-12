@@ -1,6 +1,6 @@
-from inventory_sync.api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
+from api_connectors import BigCommerceConnector, VendHQConnector, standard_vhq_connector, standard_bc_connector
 
-from inventory_sync.models import InventorySnapshot, ProductInventorySnapshot
+from models import InventorySnapshot, ProductInventorySnapshot
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -68,8 +68,11 @@ def save_snapshots():
 
 def default_syncer():
     return InventorySyncer(standard_bc_connector(), standard_vhq_connector())
-    
+
+def sync():
+    syncer = default_syncer()
+    syncer.sync_products()
     
 if __name__ == '__main__':
-    syncer = InventorySyncer()
+    syncer = default_syncer()
     syncer.sync_products()

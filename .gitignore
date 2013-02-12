@@ -1,3 +1,5 @@
 sqlite3.db
 store_manager/db_settings.py
 store_manager/db_settings.py
+*.pyc
+.DS_Store

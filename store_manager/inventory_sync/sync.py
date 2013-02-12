@@ -40,6 +40,10 @@ class InventorySyncer:
             
             self.bc_connector.update_product_inventory(new_inventory, product_id=bc_product.product_id, sku_id=bc_product.sku_id)
             self.vhq_connector.update_product_inventory(new_inventory, product_id=vhq_product.vhq_product_id)
+            
+            global_snapshot = ProductInventorySnapshot(sku=sku, store='G', inventory_count=new_inventory)
+            global_snapshot.save()
+            
             print "\t Synced: Previous: %d, VHQ Sold: %d, BC Sold: %d, New: %d" % (previous_inventory, vhq_sold, bc_sold, new_inventory)
         
         save_snapshots()

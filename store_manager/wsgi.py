@@ -20,6 +20,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store_manager.settings")
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
+site.addsitedir(os.path.join(os.path.dirname(os.path.dirname(__file__)), "venv/lib/python2.7/site-packages"))
+
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.

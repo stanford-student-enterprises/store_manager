@@ -17,11 +17,25 @@ import os, sys, site
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store_manager.settings")
 
-sys.path.append(os.path.dirname(__file__))
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+ALLDIRS = ['/usr/local/pythonenv/store_managerlib/python2.7/site-packages']
 
-site.addsitedir(os.path.join(os.path.dirname(os.path.dirname(__file__)), "venv/lib/python2.7/site-packages"))
+import sys 
+import site 
 
+# Remember original sys.path.
+prev_sys_path = list(sys.path) 
+
+# Add each new site-packages directory.
+for directory in ALLDIRS:
+  site.addsitedir(directory)
+
+# Reorder sys.path so new directories at the front.
+new_sys_path = [] 
+for item in list(sys.path): 
+    if item not in prev_sys_path: 
+        new_sys_path.append(item) 
+        sys.path.remove(item) 
+sys.path[:0] = new_sys_path 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.

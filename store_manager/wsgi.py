@@ -19,12 +19,11 @@ import os, sys, site
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
+print >> sys.stderr, sys.path
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store_manager.settings")
 
 ALLDIRS = ['/home/sse/store_inventory/website/venv/lib/python2.7/site-packages']
-
-import sys 
-import site 
 
 # Remember original sys.path.
 prev_sys_path = list(sys.path) 
